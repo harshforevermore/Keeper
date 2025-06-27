@@ -19,12 +19,17 @@
   text-align: justify;
 }
 
-div.feature-icons {
+div.feature-icons-container {
   margin-top: 1em;
+}
+section.feature-icons {
+  width: fit-content;
+  float: right;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
   gap: 1em;
+  padding: 0 .7em;
   transition: all .3s linear;
 }
 .feature-icons .icons {

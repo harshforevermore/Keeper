@@ -17,6 +17,32 @@ const Note = (props) => {
   const [paraChange, setParaChange] = useState("");
 
   const noteRef = useRef(null);
+  const palleteRef = useRef(null);
+  const palleteIconRef = useRef(null);
+
+  const togglePallete = (e) => {
+    e.stopPropagation();
+    setShowColorPallete((prev) => !prev);
+  };
+
+  useEffect(() => {
+    //useEffect to handle the color pallete 
+    const handleClickOutside = (event) => {
+      if (
+        palleteRef.current &&
+        !palleteRef.current.contains(event.target) &&
+        !palleteIconRef.current.contains(event.target)
+      ) {
+        setShowColorPallete(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const getTextColor = (bgColor) => {
     const r = parseInt(bgColor.substring(1, 3), 16);
@@ -97,39 +123,48 @@ const Note = (props) => {
       ) : null}
       {!edit && (
         <div
-          className="feature-icons"
+          className="feature-icons-container"
           style={showFeatureIcons ? { opacity: 1 } : { opacity: 0 }}
         >
-          <MdDelete
-            onClick={() => {
-              props.delete(props.id);
-            }}
-            className="icons"
-          />
-          <IoColorPaletteOutline
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowColorPallete(!showColorPallete);
-            }}
-            className="icons"
-          />
-          <GoPencil
-            onClick={(e) => {
-              e.stopPropagation();
-              handleEditNote();
-              setExpand(true);
-              setEdit(true);
-            }}
-            className="icons"
-          />
+          <section className="feature-icons" onClick={(e) => e.stopPropagation()}>
+            <section className="delete-icon">
+              <MdDelete
+                onClick={() => {
+                  props.delete(props.id);
+                }}
+                className="icons"
+                title="Delete Note"
+              />
+            </section>
+            <section
+              ref={palleteIconRef}
+              onClick={(e) => togglePallete(e)}
+              className="color-pallete-icon"
+            >
+              <IoColorPaletteOutline className="icons" title="Select Color" />
+            </section>
+            <section className="pencil-icon">
+              <GoPencil
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditNote();
+                  setExpand(true);
+                  setEdit(true);
+                }}
+                className="icons"
+                title="Edit Note"
+              />
+            </section>
+          </section>
         </div>
       )}
       <div
-        className={`color-pallete ${
-          showColorPallete ? null : "hide-color-pallete"
+        ref={palleteRef}
+        className={`${
+          showColorPallete ? "color-pallete" : "hide-color-pallete"
         }`}
       >
-        <div className="predefined-colors">
+        <div onClick={(e) => e.stopPropagation()} className="predefined-colors">
           {Colors.map((color) => (
             <div
               key={color.id}

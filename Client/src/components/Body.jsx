@@ -9,6 +9,7 @@ const Body = () => {
     {title: "Example Note", description: "these are details related to this note."},
     {title: "Example Note 2", description: "some details related to this note."}
   ];
+
   const [data, setData] = useState([...notes]);
   function addData(getData) {
     setData([getData, ...data]);
@@ -39,7 +40,7 @@ const Body = () => {
 
   return (
     <div className="body">
-      <div className="input-area-container">
+      <div className={`input-area-container`}>
         <InputArea addData={addData}/>
       </div>
       <Masonry breakpointCols={breakpointColumnsObj} className="masonry-grid notes-container" columnClassName="masonry-grid-column">

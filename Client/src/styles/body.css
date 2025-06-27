@@ -29,7 +29,9 @@
 .blur-notes-container {
   filter: blur(4px);
 }
-
+.z-full {
+  z-index: 99;
+}
 @media (max-width: 500px) {
   .masonry-grid-column {
     justify-content: center;

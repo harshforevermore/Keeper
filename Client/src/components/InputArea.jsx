@@ -4,7 +4,7 @@ import { BiExpandAlt } from "react-icons/bi";
 import { BiCollapseAlt } from "react-icons/bi";
 import "../styles/inputArea.css";
 
-const InputArea = (props) => {
+const InputArea = ({addData}) => {
   const {
     register,
     handleSubmit,
@@ -20,19 +20,12 @@ const InputArea = (props) => {
   const onSubmit = (data) => {
     console.log(data);
     if (data.title !== "" && data.description !== "") {
-      props.addData(data);
+      addData(data);
     }
     setTitleLetterCount(100);
     reset();
   };
-  const title = watch("title");
-  useEffect(() => {
-    title
-      ? setTitleLetterCount(() => {
-          return 100 - title.length;
-        })
-      : null;
-  }, [title]);
+  
   //Fix a bug that shows the scroll bar on 1st expansion
   useEffect(() => {
     const form = document.querySelector("form.input-area");
@@ -46,13 +39,13 @@ const InputArea = (props) => {
   }, []);
   return (
     <div
-      className="form-container"
+      className={`form-container`}
       onFocus={() => setCollapsedForm(false)}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
           setCollapsedForm(true);
           setExpandedForm(false);
-        };
+        }
       }}
       tabIndex={"-1"}
     >
@@ -70,9 +63,6 @@ const InputArea = (props) => {
               id="note-title"
               placeholder="Title"
             />
-            <span className="title-letter-count" tabIndex={"-1"}>
-              {titleLetterCount}
-            </span>
           </div>
         )}
         <textarea
@@ -93,20 +83,19 @@ const InputArea = (props) => {
       </form>
       <div className="icons">
         <span>
-          {
-            expandedForm ?
-            <BiCollapseAlt 
+          {expandedForm ? (
+            <BiCollapseAlt
               onClick={() => setExpandedForm(false)}
               className="icon"
             />
-            :
+          ) : (
             <BiExpandAlt
               onClick={() => setExpandedForm(true)}
               className={`icon ${
                 collapsedForm ? "hide-icons" : "display-icons"
               }`}
             />
-          }
+          )}
         </span>
       </div>
     </div>
