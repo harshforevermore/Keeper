@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Body from "../components/Body";
+import Container from "../components/Dashboard/Container";
 import Login from "../components/Login";
 import Register from "../components/Register";
 
@@ -7,7 +7,7 @@ const RouterNav = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Body />} />
+        <Route path="/" element={<Container />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Register />} />
       </Routes>

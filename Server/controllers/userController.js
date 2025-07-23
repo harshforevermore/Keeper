@@ -12,7 +12,9 @@ import {
   generateNewRefreshToken,
 } from "../utils/tokenUtils.js";
 import { deleteRefreshToken, insertRefreshToken } from "../models/tokenModel.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 
 
 export const registerUser = async (req, res) => {
@@ -23,8 +25,9 @@ export const registerUser = async (req, res) => {
 
   try {
     // 1. Check if user already exists
-    const alreadyExist = await findUserByEmail(email);
-    if (alreadyExist) {
+    const emailAlreadyExist = await findUserByEmail(email);
+    const usernameAlreadyExist = await checkUsernameExists(username);
+    if (emailAlreadyExist || usernameAlreadyExist) {
       return res.status(401).json({ message: "User already exists" });
     }
 
@@ -32,7 +35,7 @@ export const registerUser = async (req, res) => {
     const public_id = generatePublicId();
     const hashedPassword = await generateHashedPassword(password);
     const newUser = await createUser(public_id, username, email, hashedPassword);
-
+    console.log(newUser);
     if (!newUser) {
       return res.status(400).json({ message: "Something went wrong, try again" });
     }
@@ -42,7 +45,7 @@ export const registerUser = async (req, res) => {
     const access_token = generateNewAccessToken(public_id, email);
 
     // 4. Save refresh token
-    const result = await insertRefreshToken(id, refresh_token);
+    const result = await insertRefreshToken(newUser[0].id, refresh_token);
 
     if (!result) {
       await deleteRecentlycreatedUser(public_id); // cleanup
@@ -83,14 +86,14 @@ export const loginUser = async (req, res) => {
     }
 
     // 3. Delete old refresh token
-    await deleteRefreshToken(user.public_id);
+    await deleteRefreshToken(user.id);
 
     // 4. Generate new tokens
     const refreshToken = generateNewRefreshToken(user.public_id, user.email);
     const accessToken = generateNewAccessToken(user.public_id, user.email);
 
     // 5. Store new refresh token in the database
-    const saved = await insertRefreshToken(user.public_id, refreshToken);
+    const saved = await insertRefreshToken(user.id, refreshToken);
     if (!saved) {
       return res.status(500).json({ message: "Error saving refresh token" });
     }

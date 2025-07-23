@@ -15,14 +15,12 @@ const InputArea = ({addData}) => {
 
   const [collapsedForm, setCollapsedForm] = useState(true);
   const [expandedForm, setExpandedForm] = useState(false);
-  const [titleLetterCount, setTitleLetterCount] = useState(100);
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log("submitted note: ", data);
     if (data.title !== "" && data.description !== "") {
       addData(data);
     }
-    setTitleLetterCount(100);
     reset();
   };
   
@@ -39,7 +37,7 @@ const InputArea = ({addData}) => {
   }, []);
   return (
     <div
-      className={`form-container`}
+      className={`form-container ${(expandedForm || !collapsedForm) && "expanded-margin"}`}
       onFocus={() => setCollapsedForm(false)}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {

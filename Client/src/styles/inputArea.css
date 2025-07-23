@@ -1,26 +1,24 @@
-.input-area-container {
-  place-items: center;
-  z-index: 1;
-}
 div.form-container {
   display: flex;
   align-items: flex-start;
   gap: 0.4em;
 }
+.form-container.expanded-margin {
+  margin-bottom: 1em;
+}
 form.input-area {
-  border-radius: 1em;
+  border-radius: .4em;
   box-shadow: 0 0 5px 0 #8b8b8b;
   transition: all 0.3s linear;
 }
 .input-area {
   position: relative;
-  background-color: #fff;
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  width: 30rem;
+  width: 32em;
   height: 11.5rem;
-  padding: 0.5rem 1rem;
+  padding: .3em 1em .5em 1em;
 }
 .input-area .title {
   display: flex;
@@ -37,33 +35,35 @@ input#note-title:hover,
 input#note-title:focus,
 textarea#note-desc:hover,
 textarea#note-desc:focus {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #676767;
 }
 input#note-title {
   width: 100%;
+  background-color: transparent;
   padding-right: 8%;
-  height: 2.6em;
-  font-size: 1.3em;
+  height: 2em;
+  font-size: 1.4em;
   text-shadow: -1px 0 0 #000;
 }
 textarea#note-desc {
   resize: none;
   height: 85%;
   line-height: 1.5em;
-  padding: 0.5em;
+  padding: 0 0.5em;
+  background-color: transparent;
   font-size: 1.1em;
 }
 .input-area .add-button {
   position: absolute;
   cursor: pointer;
-  right: 7%;
+  right: 3%;
   bottom: -27px;
   background-color: #ffae00;
   color: #fff;
   border: 2px solid transparent;
   border-radius: 50%;
   font-size: 2.3em;
-  padding: 0 0.5em;
+  padding: .1em .4em;
   transition: all 200ms ease;
 }
 .input-area .add-button:hover,
@@ -95,11 +95,14 @@ textarea#note-desc {
 .errors {
   border-bottom: 1px solid red;
 }
-.collapsed {
-  height: 5rem;
+.input-area.collapsed {
+  height: 2.7rem;
+  padding-bottom: 0;
+  padding-top: .5em;
 }
 .collapsed-textarea {
   height: 2.5em;
+  overflow: hidden;
 }
 .hide-button {
   display: none;
@@ -110,9 +113,9 @@ textarea#note-desc {
 .expanded-addButton {
   bottom: -5%;
 }
-.expanded-form {
+.input-area.expanded-form {
   width: 60rem;
-  height: 36.5rem;
+  height: 30rem;
 }
 
 @keyframes reveal {

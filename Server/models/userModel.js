@@ -41,7 +41,7 @@ export const checkUsernameExists = async (username) => {
 export const matchPassWithUsername = async (username, password) => {
     try{
         const getPass = await pool.query("SELECT password FROM users WHERE username = $1", [username]);
-        const comparePass = compareHashedPasswords(password, getPass.rows[0]);
+        const comparePass = compareHashedPasswords(password, getPass.rows[0].password);
         return comparePass;
     }
     catch(error) {

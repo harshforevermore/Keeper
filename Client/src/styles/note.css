@@ -2,8 +2,7 @@
   position: relative;
   height: fit-content;
   width: 100%;
-  box-shadow: 0 0 3px 0 #a7a7a7;
-  background-color: #fff;
+  box-shadow: 0 0 5px 0 #8a8a8a;
   border-radius: 0.4rem;
   display: flex;
   flex-direction: column;

@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 
 const Note = (props) => {
   const [showColorPallete, setShowColorPallete] = useState(false);
-  const [noteBackground, setNoteBackground] = useState("#ffffff");
+  const [noteBackground, setNoteBackground] = useState("#f0f0f0");
   const [textColor, setTextColor] = useState("#000000");
   const [showFeatureIcons, setShowFeatureIcons] = useState(false);
   const [expand, setExpand] = useState(false);
