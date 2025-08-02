@@ -8,31 +8,40 @@
   padding-top: 1em;
   flex: 1;
   overflow: hidden;
-  border: 1px solid red;
+  z-index: 5;
 }
 .input-area-container {
   flex-shrink: 0;
   place-items: center;
-  z-index: 1;
 }
 #masonry-wrapper {
-  width: 98%;
+  width: 99%;
   flex: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 1em 0;
-  border-top: 1px solid #B8B8B8;
+  padding-top: .7em;
+  padding-bottom: .3em;
+  border-top: 1px solid #d8d8d8;
 }
-.masonry-grid {
-  position: relative;
+#masonry-scrollable-div {
   width: 100%;
   flex: 1;
   overflow-y: auto;
   scroll-behavior: smooth;
+  padding: .4em 1.5em;
+}
+span#no-notes-text {
+  display: block;
+  place-self: center;
+  margin: 10% 0;
+  font-size: 2em;
+  color: #B8B8B8;
+}
+.masonry-grid {
+  position: relative;
   display: flex;
   gap: 1em;
-  padding: 0.1em 2em;
 }
 .masonry-grid-column {
   background: transparent;

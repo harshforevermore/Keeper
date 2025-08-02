@@ -1,0 +1,42 @@
+.note-settings-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 1em;
+  overflow-y: auto;
+}
+
+.note-settings-container > * {
+  padding: 1em;
+}
+.note-settings-container .current-note {
+  flex: 1;
+}
+.note-settings-container .settings {
+  flex: 2;
+  border-left: 1px solid #cecece;
+}
+.note-settings-container span {
+  display: block;
+  font-size: 2em;
+  color: #7a7a7a;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+@media (max-width: 1000px) {
+  .note-settings-container {
+    flex-direction: column;
+  }
+  .note-settings-container .current-note {
+    flex: 1;
+    padding-bottom: 0;
+  }
+  .note-settings-container .settings {
+    flex: 2;
+    border-left: none;
+    border-top: 1px solid #cecece;
+  }
+}

@@ -1,0 +1,127 @@
+/* div#notification {
+  animation: notify 4000ms normal ease-out;
+} */
+div.notification-container {
+  z-index: 1000;
+  position: fixed;
+  top: 0.8%;
+  left: 50%;
+  transform: translate(-50%, -120%);
+  opacity: 0;
+  min-width: 20em;
+  padding: 1em 1.8em;
+  display: flex;
+  gap: 1em;
+  border-radius: 0.3em;
+  box-shadow: 0 0 7px #9b9b9b;
+  transition: opacity 0.5s, transform 0.5s;
+}
+div.notification-container.visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+div.notification-container.invisible {
+  transform: translate(-50%, -120%);
+  opacity: 0;
+}
+/* div.notification-container > * {
+  border: 1px solid black;
+} */
+div.designer-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: .5em;
+  background-color: #d70012;
+  border-radius: .3em 0 0 .3em;
+}
+div#close-notification {
+  cursor: pointer;
+  position: absolute;
+  top: 5%;
+  right: 2%;
+}
+div#close-notification #close-notification-icon {
+  font-size: 1.2em;
+}
+div.designer-div.success-designer-div {
+  background: #008c00;
+}
+div.designer-div.error-designer-div {
+  background: #d70012;
+}
+div.designer-div.warning-designer-div {
+  background: #e2c900;
+}
+div.designer-div.info-designer-div {
+  background: #5800df;
+}
+.notification-container.success-bg {
+  background: #e4f7e7;
+}
+.notification-container.error-bg {
+  background: #fce7e9;
+}
+.notification-container.warning-bg {
+  background: #fafde6;
+}
+.notification-container.info-bg {
+  background: #e7e7e7;
+}
+div.notification-container .notification-head {
+  font-weight: 600;
+  font-size: 1.1em;
+}
+.notification-head.success-text {
+  color: #008c00;
+}
+.notification-head.error-text {
+  color: #d70012;
+}
+.notification-head.warning-text {
+  color: #e2c900;
+}
+.notification-head.info-text {
+  color: #5800df;
+}
+section.notification-icon > * {
+  font-size: 1.4em;
+}
+section.notification-icon .success-icon {
+  color: #008c00;
+}
+section.notification-icon .error-icon {
+  color: #d70012;
+}
+section.notification-icon .warning-icon {
+  color: #e2c900;
+}
+section.notification-icon .info-icon {
+  color: #5800df;
+}
+
+p.notification-text {
+  font-size: 1.1em;
+  /* text-wrap: nowrap; */
+  margin-top: .2em;
+}
+
+@keyframes notify {
+  0% {
+    transform: translate(-50%, -120%);
+    opacity: 0;
+  }
+  5% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  95% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+  100%{
+    transform: translate(-50%, -120%);
+    opacity: 0;
+  }
+}

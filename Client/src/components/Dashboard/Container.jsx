@@ -1,11 +1,11 @@
 import Sidepanel from "../Sidepanel/Sidepanel";
-import Body from "./Body";
 import "../../styles/dashboard/container.css";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 const container = () => {
-  const [showSidepanel, setShowSidepanel] = useState(true);
+  const [showSidepanel, setShowSidepanel] = useState(false);
   return (
     <div className="container-container">
       <div className="sidepanel">
@@ -21,9 +21,7 @@ const container = () => {
           title="Show Access Bar"
         />
       </div>
-      {/* <div className="body-container"> */}
-        <Body />
-      {/* </div> */}
+      <Outlet />
     </div>
   );
 };

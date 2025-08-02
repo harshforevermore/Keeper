@@ -1,9 +1,17 @@
+:root {
+    --vh: 1vh;
+}
 .sidepanel-container {
-    height: 91vh;
+    height: calc(var(--vh) * 100 - 4.6em);
+    width: 12.5em;
+    position: fixed;
+    top: 4.6em;
+    left: 0;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 10fr 2fr auto;
+    grid-template-rows: 3em 1fr 5.5em 2em;
     gap: .1em;
+    background: #f0f0f0;
     box-shadow: 1px 5px 7px grey;
     border-radius: .5em;
     padding-top: .5em;
@@ -12,11 +20,14 @@
     z-index: 999;
 }
 .sidepanel-container.hide-sidepanel {
-    width: 0;
+    /* width: 0; */
+    transform: translateX(-100%);
     opacity: 0;
+    z-index: 0;
 }
 .sidepanel-container.show-sidepanel {
-    width: 12.5em;
+    /* width: 12.5em; */
+    transform: translateX(0);
     opacity: 1;
 }
 div.user-sec {
@@ -24,7 +35,6 @@ div.user-sec {
 }
 div.profile {
     cursor: pointer;
-    height: 3em;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -129,7 +139,7 @@ div.controls {
     flex-direction: column;
     justify-content: space-between;
     gap: .3em;
-    padding: .7em 0;
+    padding: .3em 0;
 }
 div.controls section {
     cursor: pointer;

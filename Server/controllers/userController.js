@@ -61,7 +61,7 @@ export const registerUser = async (req, res) => {
     });
 
     // 6. Send response
-    return res.status(201).json({ publicId: public_id, message: "Successfully Registered" });
+    return res.status(201).json({ publicId: public_id, message: "Successfully Registered!" });
 
   } catch (error) {
     console.error("Error while registering user:", error.message);
@@ -78,13 +78,13 @@ export const loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "User doesn't exist!" });
     }
-
+    
     // 2. Check password
     const isPassMatch = await matchPassWithUsername(username, password);
     if (!isPassMatch) {
       return res.status(401).json({ message: "Wrong password!" });
     }
-
+    
     // 3. Delete old refresh token
     await deleteRefreshToken(user.id);
 
@@ -108,13 +108,13 @@ export const loginUser = async (req, res) => {
 
     // 7. Success response
     return res
-      .status(200)
-      .json({ publicId: user.public_id, message: "Login successful" });
+    .status(200)
+    .json({ publicId: user.public_id, message: "Login successful" });
 
   } catch (error) {
     console.error("Login error:", error.message);
     return res
       .status(500)
       .json({ message: "Internal server error, please try again" });
-  }
+    }
 };

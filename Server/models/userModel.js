@@ -58,3 +58,13 @@ export const deleteRecentlycreatedUser = async (public_id) => {
         console.error("Error occured while deleting the user: ", error.message);
     }
 };
+
+export const getUsernameWithPublicId = async (public_id) => {
+    try{
+        const result = await pool.query("SELECT username FROM users WHERE public_id = $1", [public_id]);
+        return result.rows[0];
+    }
+    catch(error) {
+        console.error("Error occured while getting the username from the DB.", error.message);
+    }
+};

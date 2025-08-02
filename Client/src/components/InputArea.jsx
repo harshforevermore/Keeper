@@ -79,7 +79,7 @@ const InputArea = ({addData}) => {
           +
         </button>
       </form>
-      <div className="icons">
+      <div id="expand-collapse-icons">
         <span>
           {expandedForm ? (
             <BiCollapseAlt

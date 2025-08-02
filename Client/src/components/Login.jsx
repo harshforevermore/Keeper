@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import "../styles/login.css";
-import axios from "axios";
-import { useState } from "react";
+import axiosClient from "../API/axiosClient";
+import { useContext, useState } from "react";
+import { useNotification } from "../Context/Notification/NotificationContext";
+import { AuthContext } from "../Context/AuthContext";
 
 const Login = () => {
   const {
@@ -9,28 +12,32 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
-  const [loggedIn, setLoggedIn] = useState(false);
 
-  const onSubmit = (data) => {
-    axios
-      .post(
-        "http://localhost:9000/u/login",
-        {
-          username: data.username,
-          password: data.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        if (res.data.exists) {
-          setLoggedIn(true);
-        }
-      })
-      .catch((err) => console.error(err.message));
+  const [disableButton, setDisableButton] = useState(false);
+
+  const { login } = useContext(AuthContext);
+  const showNotification = useNotification();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    setDisableButton(true);
+    try {
+      const userData = {
+        username: data.username,
+        password: data.password,
+      };
+      const res = await axiosClient.post("/u/login", userData);
+      login(res.data.publicId);
+      setDisableButton(false);
+      navigate("/");
+      showNotification(res.data.message, "success");
+    } catch (error) {
+      console.error(
+        "Error occured while logging in:",
+        error.response?.data?.message || error.message
+      );
+      setDisableButton(false);
+    }
   };
 
   return (
@@ -93,7 +100,11 @@ const Login = () => {
           </section>
         </div>
         <div className="misc">
-          <button type="submit" id="login-button" className="button-style">
+          <button
+            type="submit"
+            className="button-style login-button"
+            disabled={disableButton}
+          >
             Login
           </button>
           <p>

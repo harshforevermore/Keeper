@@ -6,13 +6,33 @@ import { PiTrashSimple } from "react-icons/pi";
 import { LuSettings } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import { TbLayoutSidebarLeftCollapse } from "react-icons/tb";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../Context/AuthContext";
+import axiosClient from "../../API/axiosClient";
 
 const Sidepanel = ({showSidepanel, setShowSidepanel}) => {
   const [isPrivateExpanded, setIsPrivateExpanded] = useState(false);
   const [isSharedExpanded, setIsSharedExpanded] = useState(false);
   const [isPrivateHovered, setIsPrivateHovered] = useState(false);
   const [isSharedHovered, setIsSharedHovered] = useState(false);
+  const [username, setUsername] = useState("username");
+
+  const {userPublicId} = useContext(AuthContext);
+  const getUsername = async (id) => {
+    try{
+      const data = {publicId: id};
+      const res = await axiosClient.post("/u/getUsername", data);
+      setUsername(res?.data?.username || "Username");
+    }
+    catch(error) {
+      console.error("Error occured while getting username: ", error.message);
+    }
+  }
+  useEffect(() => {
+    if(userPublicId) {
+      getUsername(userPublicId);
+    }
+  }, [userPublicId]);
 
   return (
     <div className={`sidepanel-container ${!showSidepanel ? "hide-sidepanel" : "show-sidepanel"}`}>
@@ -20,7 +40,7 @@ const Sidepanel = ({showSidepanel, setShowSidepanel}) => {
         <div className="profile">
           <div className="profile-icon-name">
             <FaRegUser id="user-icon" />
-            <span>Username</span>
+            <span>{username}</span>
           </div>
           <div className="collapse-sidepanel">
             <TbLayoutSidebarLeftCollapse id="collapse-sidepanel-icon" onClick={() => setShowSidepanel(false)} title="Close" />

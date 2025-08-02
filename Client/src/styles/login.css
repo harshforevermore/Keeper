@@ -1,8 +1,5 @@
-/* * {
-  background-color: rgba(255, 0, 0, 0.082);
-  border: 1px solid red;
-} */
 .login-container {
+  width: 100%;
   justify-items: center;
   padding: 5rem 0;
   text-align: center;
@@ -47,7 +44,10 @@ div.input-fields input {
   align-items: center;
   gap: 1em;
 }
-#login-button {
+.login-button:disabled {
+  cursor: not-allowed;
+}
+.login-button {
   display: inline-block;
   padding: .5em 1em;
   font-size: 1.25em;

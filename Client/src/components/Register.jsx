@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import "../styles/login.css";
-import axios from "axios";
+import axiosClient from "../API/axiosClient";
+import { useNavigate } from "react-router-dom";
+import { useNotification } from "../Context/Notification/NotificationContext";
 
 function Register() {
   const {
@@ -9,24 +12,29 @@ function Register() {
     watch,
     formState: { errors },
   } = useForm();
+  const [disableButton, setDisableButton] = useState(false);
+  const navigate = useNavigate();
+  const showNotification = useNotification();
 
-  const onSubmit = (data) => {
-    axios
-      .post(
-        "http://localhost:9000/u/register",
-        {
-          username: data.username,
-          email: data.email,
-          password: data.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => console.log(res.data))
-      .catch((err) => console.error(err.message));
+  const onSubmit = async (data) => {
+    setDisableButton(true);
+    try {
+      const userData = {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      };
+      const res = await axiosClient.post("/u/register", userData);
+      setDisableButton(false);
+      navigate("/login");
+      showNotification(res.data?.message, "success");
+    } catch (error) {
+      console.error(
+        "Error occured while registering: ",
+        error.response?.data?.message || error.message
+      );
+      setDisableButton(false);
+    }
   };
 
   return (
@@ -126,7 +134,11 @@ function Register() {
           </section>
         </div>
         <div className="misc">
-          <button type="submit" id="login-button" className="button-style">
+          <button
+            type="submit"
+            className="button-style login-button"
+            disabled={disableButton}
+          >
             Register
           </button>
           <p>

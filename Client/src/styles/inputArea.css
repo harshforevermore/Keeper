@@ -1,7 +1,8 @@
 div.form-container {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.4em;
+  /* display: flex; */
+  /* align-items: flex-start; */
+  /* gap: 0.4em; */
+  position: relative;
 }
 .form-container.expanded-margin {
   margin-bottom: 1em;
@@ -40,7 +41,7 @@ textarea#note-desc:focus {
 input#note-title {
   width: 100%;
   background-color: transparent;
-  padding-right: 8%;
+  /* padding-right: 5%; */
   height: 2em;
   font-size: 1.4em;
   text-shadow: -1px 0 0 #000;
@@ -73,6 +74,11 @@ textarea#note-desc {
 }
 .input-area .add-button:active {
   box-shadow: none;
+}
+div#expand-collapse-icons {
+  position: absolute;
+  top: 0;
+  right: -1.7em;
 }
 .icon {
   cursor: pointer;
