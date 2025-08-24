@@ -67,15 +67,16 @@ div.collapse-sidepanel #collapse-sidepanel-icon {
 div.notes-desc-container {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: .5em;
     padding-top: .3em;
+    overflow-x: hidden;
 }
-
 section.note-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-right: .5em;
+    margin-bottom: .2em;
 }
 section.note-head h6 {
     font-size: .78em;
@@ -106,7 +107,34 @@ section.note-head .head-plus-icon:hover, .head-expand-collapse:hover {
 .collapse {
   transform: rotate(180deg);  
 }
-
+section.notes-heading {
+    padding: .1em .2em;
+    display: flex;
+    flex-direction: column;
+    gap: .15em;
+}
+section.notes-heading section.note-desc {
+    cursor: pointer;
+    width: 100%;
+    padding: .15em .3em;
+    place-content: center;
+    border-radius: .2em;
+    display: grid;
+    justify-content: start;
+    background: #0000000e;
+    /* border-bottom: 1px solid #ffae00; */
+}
+section.notes-heading section.note-desc:hover {
+    background: #0000001f;
+}
+section.note-desc span.heading {
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: .88em;
+}
 section.new-note-btn {
     cursor: pointer;
     height: 1.5em;
@@ -114,7 +142,7 @@ section.new-note-btn {
     align-items: center;
     justify-content: center;
     gap: .4em;
-    margin-top: .6em;
+    margin-top: .3em;
     margin-left: .3em;
     margin-right: .3em;
     border-radius: .34em;
@@ -122,6 +150,9 @@ section.new-note-btn {
 }
 section.new-note-btn:hover {
     background-color: #dddddd;
+}
+section.new-note-btn > * {
+    pointer-events: none;
 }
 section.new-note-btn .add-new-plus-icon {
     font-size: 1em;

@@ -113,6 +113,7 @@ section.feature-icons {
   position: relative;
 }
 #more-options {
+  z-index: 5;
   position: absolute;
   right: 0;
   top: 30px;
@@ -152,7 +153,7 @@ section.feature-icons {
   position: absolute;
   z-index: 99;
   top: 95%;
-  left: 10%;
+  right: 0px;
   display: flex;
   border-radius: 0.5em;
   padding: 0.3em 0.7em;
@@ -239,6 +240,50 @@ textarea#edit-desc:focus {
 button.save-edit-button {
   align-self: flex-end;
   margin-top: 0.7em;
+}
+
+div#trashed-three-dots {
+  position: relative;
+}
+div#trashed-three-dots section#icon-section {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 7px;
+}
+section#icon-section span {
+  font-size: 1.2em;
+}
+div#trashed-three-dots section#trash-options {
+  position: absolute;
+  top: 10px;
+  right: -115px;
+  z-index: 10;
+  background-color: #fff;
+  padding: .5em;
+  border-radius: .4em;
+  box-shadow: 0 0 5px #8a8a8a;
+  display: flex;
+  flex-direction: column;
+  gap: .2em;
+}
+section#trash-options section.option {
+  cursor: pointer;
+  padding: .4em .5em;
+  border-radius: .4em;
+  display: flex;
+  gap: .2em;
+  transition: all 150ms ease;
+}
+section#trash-options section.option:hover {
+  background: #f0f0f0;
+}
+section.option span:first-child {
+  font-size: 1.1em;
+}
+#trash-option-hr {
+  border: none;
+  border-top: 1px solid #f0f0f0;
 }
 @media (max-width: 727px) {
   .note .note-heading {

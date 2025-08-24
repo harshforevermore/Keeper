@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
-import Notification from "../../components/Notification";
+import Notification from "../../components/Feedback/Notification";
 import { setNotificationHandler } from "./notificationService";
 
 const NotificationContext = createContext();

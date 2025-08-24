@@ -1,25 +1,24 @@
-import { MdDelete } from "react-icons/md";
 import { IoCloseOutline, IoColorPaletteOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
 import { IoMdColorFill } from "react-icons/io";
 import { PiShareFatFill } from "react-icons/pi";
-// import { MdVisibility } from "react-icons/md";
-// import { FaUserLock } from "react-icons/fa6";
-// import { TbWorld } from "react-icons/tb";
-// import { HiLockClosed } from "react-icons/hi2";
-// import { FaUserFriends } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
-import { MdOutlineNotes } from "react-icons/md";
+import { MdOutlineNotes, MdRestore, MdDelete } from "react-icons/md";
 import { LuSettings } from "react-icons/lu";
-import "../../styles/Note/note.css";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Colors from "../../data/data";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "../../styles/Note/note.css";
+import { useNotes } from "../../Context/NotesContext";
+import { useConfirm } from "../../Context/ConfirmContext";
 
 const Note = (props) => {
   const [showColorPallete, setShowColorPallete] = useState(false);
-  const [noteBackground, setNoteBackground] = useState(props?.noteBG || "#f0f0f0");
+  const [noteBackground, setNoteBackground] = useState(
+    props?.noteBG || "#f0f0f0"
+  );
   const [textColor, setTextColor] = useState("#000000");
   const [showFeatureIcons, setShowFeatureIcons] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -28,8 +27,11 @@ const Note = (props) => {
   const [paraChange, setParaChange] = useState("");
   const [showMeta, setShowMeta] = useState(false);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const [showTrashOptions, setShowTrashOptions] = useState(false);
 
   const { userPublicId } = useContext(AuthContext);
+  const { restoreNote, deleteNote } = useNotes();
+  const {confirm} = useConfirm();
 
   const navigate = useNavigate();
 
@@ -41,28 +43,18 @@ const Note = (props) => {
     {
       id: 1,
       name: "Share",
-      icon: (
-        <PiShareFatFill
-          className="icons"
-          title="Share"
-        />
-      ),
+      icon: <PiShareFatFill className="icons" title="Share" />,
       onClickFn: () => {
         console.log("Share Note");
-      }
+      },
     },
     {
       id: 2,
       name: "Settings",
-      icon: (
-        <LuSettings
-          className="icons"
-          title="Show Settings"
-        />
-      ),
+      icon: <LuSettings className="icons" title="Show Settings" />,
       onClickFn: () => {
-        navigate(`/note/${props.noteId}`);
-      }
+        navigate(`/note/${props.noteId}/settings`);
+      },
     },
   ];
 
@@ -70,13 +62,15 @@ const Note = (props) => {
     e.stopPropagation();
     setShowColorPallete((prev) => !prev);
   };
-
   useEffect(() => {
-    if(noteBackground) {
+    setNoteBackground(props.noteBG);
+  }, [props.noteBG]);
+  useEffect(() => {
+    if (noteBackground && !props.trashed) {
       const timeout = setTimeout(() => {
         props.updateNoteBG(noteBackground, props.noteId);
       }, 1000);
-      
+
       return () => clearTimeout(timeout);
     }
   }, [noteBackground]);
@@ -87,7 +81,7 @@ const Note = (props) => {
       if (
         palleteRef.current &&
         !palleteRef.current.contains(event.target) &&
-        !palleteIconRef.current.contains(event.target)
+        !palleteIconRef?.current?.contains(event.target)
       ) {
         setShowColorPallete(false);
       }
@@ -126,7 +120,7 @@ const Note = (props) => {
   }, [focused]);
 
   useEffect(() => {
-    if(noteBackground) {
+    if (noteBackground) {
       setTextColor(getTextColor(noteBackground));
     }
   }, [noteBackground]);
@@ -134,6 +128,13 @@ const Note = (props) => {
   function handleEditNote() {
     setTitleChange(props.heading);
     setParaChange(props.details);
+  }
+
+  async function handleDeletePermanently() {
+    const confirmDelete = await confirm("Delete this note permanently?");
+    if(confirmDelete) {
+      deleteNote(props.noteId);
+    }
   }
 
   return (
@@ -153,6 +154,26 @@ const Note = (props) => {
           <MdOutlineNotes id="note-show-meta-icon" />
         </div>
       )}
+      {props.trashed && (
+          <div id={`trashed-three-dots`}>
+            <section onClick={() => setShowTrashOptions((prev) => !prev)} id="icon-section">
+              <span id="three-dot-icon" style={{color: textColor}}>
+                <BsThreeDotsVertical />
+              </span>
+            </section>
+            {showTrashOptions && <section id="trash-options">
+              <section onClick={() => restoreNote(props.noteId)} className="option">
+                <span><MdRestore /></span>
+                <span>Restore</span>
+              </section>
+              <hr id="trash-option-hr" />
+              <section onClick={handleDeletePermanently} className="option">
+                <span><MdDelete /></span>
+                <span>Delete</span>
+              </section>
+            </section>}
+          </div>
+        )}
       <div
         ref={noteRef}
         className={`grid-item note ${focused ? "focus-note" : ""}`}
@@ -162,7 +183,7 @@ const Note = (props) => {
         style={{ backgroundColor: noteBackground, color: textColor }}
       >
         <div className={`note-meta ${showMeta ? "show-meta" : "hide-meta"}`}>
-          {showMeta && (
+          {!props.trashed && showMeta && (
             <div
               id="close-meta"
               onClick={(e) => {
@@ -215,7 +236,7 @@ const Note = (props) => {
             Save
           </button>
         ) : null}
-        {!edit && (
+        {!props.trashed && !edit && (
           <div
             className="feature-icons-container"
             style={showFeatureIcons ? { opacity: 1 } : { opacity: 0 }}
@@ -224,21 +245,27 @@ const Note = (props) => {
               className="feature-icons"
               onClick={(e) => e.stopPropagation()}
             >
-              <section onClick={(e) => {e.stopPropagation(); setShowMoreOptions((prev) => !prev);}} id="more-options-container">
+              <section
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMoreOptions((prev) => !prev);
+                }}
+                id="more-options-container"
+              >
                 <HiDotsVertical className="icons" title="More" />
-                {showMoreOptions && <section id={`more-options`}>
-                  {
-                    moreOptions.map((option) => (
+                {showMoreOptions && (
+                  <section id={`more-options`}>
+                    {moreOptions.map((option) => (
                       <React.Fragment key={option.id}>
-                      <section onClick={option.onClickFn} className="option">
-                        {option.icon}
-                        <span>{option.name}</span>
-                      </section>
-                      <hr className="divide-options" />
+                        <section onClick={option.onClickFn} className="option">
+                          {option.icon}
+                          <span>{option.name}</span>
+                        </section>
+                        <hr className="divide-options" />
                       </React.Fragment>
-                    ))
-                  }
-                </section>}
+                    ))}
+                  </section>
+                )}
               </section>
               <section
                 ref={palleteIconRef}

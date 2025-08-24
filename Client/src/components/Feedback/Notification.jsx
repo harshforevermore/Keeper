@@ -1,7 +1,7 @@
 import { FaCircleCheck, FaCircleInfo } from "react-icons/fa6";
 import { PiWarningCircleFill } from "react-icons/pi";
 import { BsXCircleFill } from "react-icons/bs";
-import "../styles/notification.css";
+import "../../styles/Feedback/notification.css";
 import { IoCloseOutline } from "react-icons/io5";
 
 const Notification = ({ notificationText, type = "success", isLeaving, onClose }) => {

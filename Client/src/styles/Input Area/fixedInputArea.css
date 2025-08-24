@@ -1,0 +1,56 @@
+#fixed-input-area-container {
+  width: 100%;
+  place-items: center;
+  overflow-y: auto;
+}
+#fixed-input-area-container h1 {
+  font-size: 2.3em;
+  color: #00000069;
+  font-weight: 500;
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+form#fixed-input-form {
+  width: 90%;
+  height: 85%;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  border-radius: 0.4em;
+  box-shadow: 0 0 5px 0 #8b8b8b;
+  /* overflow-y: auto; */
+}
+form#fixed-input-form > input, textarea {
+  background: transparent;
+}
+input#fixed-note-title,
+textarea#fixed-note-desc {
+  padding: 0 0.3em;
+}
+input#fixed-note-title:hover,
+input#fixed-note-title:focus,
+textarea#fixed-note-desc:hover,
+textarea#fixed-note-desc:focus {
+  border-bottom: 1px solid #676767;
+}
+form#fixed-input-form #fixed-note-title {
+  height: 2em;
+  font-size: 1.4em;
+  text-shadow: -1px 0 0 #000;
+}
+form#fixed-input-form #fixed-note-desc {
+  resize: none;
+  height: 90%;
+  line-height: 1.5em;
+  padding: 0 0.5em;
+  background-color: transparent;
+  font-size: 1.1em;
+}
+form#fixed-input-form #fixed-add-button {
+  align-self: center;
+  font-size: 1.7em;
+  font-weight: 500;
+  margin-top: 0.3em;
+  padding: 0.3em 1em;
+}

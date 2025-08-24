@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { BiExpandAlt } from "react-icons/bi";
 import { BiCollapseAlt } from "react-icons/bi";
-import "../styles/inputArea.css";
+import "../../styles/Input Area/inputArea.css";
 
-const InputArea = ({addData}) => {
+const InputArea = ({addNote}) => {
   const {
     register,
     handleSubmit,
@@ -19,7 +19,7 @@ const InputArea = ({addData}) => {
   const onSubmit = (data) => {
     console.log("submitted note: ", data);
     if (data.title !== "" && data.description !== "") {
-      addData(data);
+      addNote(data);
     }
     reset();
   };
